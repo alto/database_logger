@@ -17,7 +17,7 @@ class DatabaseLogger
       insert_sql = "INSERT INTO builds (project,svn_revision,build_number,success,duration,start) 
                     VALUES (#{build.project.name},#{revision},#{build_number},#{build.failed? ? '0' : '1'},#{build.elapsed_time},#{build.time})"
       # dbh.do(insert_sql)
-      puts insert_sql
+      CruiseControl::Log.event(insert_sql)
     # end
   end
   
