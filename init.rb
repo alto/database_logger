@@ -1,2 +1,2 @@
 require 'dbi'
-require 'database_logger'
+File.dirname(__FILE__) + '/database_logger'
