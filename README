@@ -1,0 +1,56 @@
+database_logger
+===============
+
+This CruiseControl.rb plugin stores build results in a database.
+
+
+Installation
+============
+
+To install, move to your CruiseControl builder plugins directory
+
+  cd ~cruise/builder_plugins
+  
+and checkout the plugin from Github
+
+  git clone git://github.com/alto/database_logger.git
+  
+  
+Configuration
+=============
+
+As long as don't provide any of the following parameters, no database entry 
+is recorded.
+
+But to do so, simply add the following lines to your project configuration file:
+
+# ~cruise/projects/my_project/cruise_config.rb
+Project.configure do |project|
+  ...
+  project.database_logger.host      = 'localhost'
+  project.database_logger.adapter   = 'Mysql'
+  project.database_logger.database  = 'my_project_build'
+  project.database_logger.username  = 'root'
+  project.database_logger.password  = ''
+
+end
+
+Surely, you then need a database to put your results into. It should provide a 
+schema DDL similar to this:
+
+mysql> describe my_project_build;
++--------------+---------------------+------+-----+---------+----------------+
+| Field        | Type                | Null | Key | Default | Extra          |
++--------------+---------------------+------+-----+---------+----------------+
+| id           | int(11)             | NO   | PRI | NULL    | auto_increment | 
+| project      | varchar(255)        | NO   |     | NULL    |                | 
+| svn_revision | int(11)             | YES  |     | NULL    |                | 
+| success      | tinyint(4)          | YES  |     | NULL    |                | 
+| duration     | int(10) unsigned    | YES  |     | NULL    |                | 
+| start        | datetime            | YES  |     | NULL    |                | 
+| build_number | tinyint(3) unsigned | YES  |     | NULL    |                | 
++--------------+---------------------+------+-----+---------+----------------+
+
+
+
+Copyright (c) 2008 Thorsten Böttger, http://mt7.de, released under the MIT license
